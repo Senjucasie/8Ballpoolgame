@@ -1,29 +1,42 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputHandler : MonoBehaviour
 {
     private Vector3 _prevPosition;
     private Vector3 _differnce;
 
-    [SerializeField]private CueStickHandler _cueStickHandler;
-
-
-    private event Action<float> OnSwiped;
-
-    // Start is called before the first frame update
-    void Start()
+    public event Action<float> OnSwiped;
+    private EventSystem _eventSystem;
+    private bool _isOverUI;
+ 
+    public void Init()
     {
-        OnSwiped += _cueStickHandler.RotateCueStick;
+        _eventSystem = EventSystem.current;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+
         if (Input.GetMouseButtonDown(0))
         {
+            if (_eventSystem.IsPointerOverGameObject())
+            {
+                _isOverUI = true;
+                return;
+            }
             _prevPosition = Input.mousePosition;
         }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            _isOverUI = false;
+        }
+        if (_isOverUI) return;
+       
         if (Input.GetMouseButton(0))
         {
             _differnce = _prevPosition - Input.mousePosition;
@@ -46,8 +59,5 @@ public class InputHandler : MonoBehaviour
          
         }
     }
-    private void OnDestroy()
-    {
-        OnSwiped -= _cueStickHandler.RotateCueStick;
-    }
+  
 }

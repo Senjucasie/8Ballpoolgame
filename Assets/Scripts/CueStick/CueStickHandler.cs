@@ -1,19 +1,29 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CueStick))]
 public class CueStickHandler : MonoBehaviour
 {
-    [SerializeField] private CueStick _cueStick;
+     [SerializeField]private CueStick _cueStick;
+     private InputHandler _input;
 
-
-    public void Start()
+    public void Init(InputHandler input)
     {
-        _cueStick = GetComponent<CueStick>();
-        _cueStick.Init(transform.parent);
+        _input =input;
+        SubscribeEvents();
+        _cueStick.Init(transform);
     }
 
-    public void RotateCueStick(float angle)
+    private void SubscribeEvents() 
+    {
+        _input.OnSwiped += RotateCueStick;
+    }
+
+    private void RotateCueStick(float angle)
     {
         _cueStick.Rotate(angle);
+    }
+
+    private void OnDestroy()
+    {
+        _input.OnSwiped -= RotateCueStick;
     }
 }
