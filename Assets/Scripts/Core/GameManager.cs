@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _cueStickHandler.Init(_inpuHandler);
+        _cueStickHandler.Init(_inpuHandler,_uiManager.GetHitSlider());
         _uiManager.Init();
         _inpuHandler.Init();
     }

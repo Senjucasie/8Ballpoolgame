@@ -3,10 +3,15 @@ using UnityEngine;
 public class CueStickHandler : MonoBehaviour
 {
      [SerializeField]private CueStick _cueStick;
-     private InputHandler _input;
 
-    public void Init(InputHandler input)
+    //Dependency
+     private InputHandler _input;
+     private HitSlider _hitSlider;
+
+
+    public void Init(InputHandler input,HitSlider slider)
     {
+        _hitSlider = slider;
         _input =input;
         SubscribeEvents();
         _cueStick.Init(transform);
@@ -15,6 +20,7 @@ public class CueStickHandler : MonoBehaviour
     private void SubscribeEvents() 
     {
         _input.OnSwiped += RotateCueStick;
+        _hitSlider.SliderMoved += PullCueStick;
     }
 
     private void RotateCueStick(float angle)
@@ -22,8 +28,19 @@ public class CueStickHandler : MonoBehaviour
         _cueStick.Rotate(angle);
     }
 
+    private void PullCueStick(float power)
+    {
+        _cueStick.Pullstick(power);
+    }
+
     private void OnDestroy()
     {
+       UnSubScribeEvents();
+    }
+
+    private void UnSubScribeEvents()
+    {
         _input.OnSwiped -= RotateCueStick;
+        _hitSlider.SliderMoved -= PullCueStick;
     }
 }

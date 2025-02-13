@@ -18,7 +18,7 @@ public class CueStick : MonoBehaviour
 
     public void Pullstick(float power )
     {
-        transform.Translate(Vector3.left * _maxPulldistance * power,Space.Self);
+        transform.Translate(Vector3.right * _maxPulldistance * power,Space.Self);
     }
      
 }

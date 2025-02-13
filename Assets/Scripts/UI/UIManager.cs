@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField]private HitSlider _hitSlider;
-    
+
+    public HitSlider GetHitSlider() { return _hitSlider; }
 
     public void Init()
     {
