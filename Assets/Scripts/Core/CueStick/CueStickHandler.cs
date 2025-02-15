@@ -9,18 +9,20 @@ public class CueStickHandler : MonoBehaviour
      private HitSlider _hitSlider;
 
 
-    public void Init(InputHandler input,HitSlider slider)
+    public void Init(InputHandler input,HitSlider slider,CueBall cueball)
     {
         _hitSlider = slider;
         _input =input;
         SubscribeEvents();
-        _cueStick.Init(transform);
+        _cueStick.Init(transform, cueball);
     }
 
     private void SubscribeEvents() 
     {
         _input.OnSwiped += RotateCueStick;
         _hitSlider.SliderMoved += PullCueStick;
+        _hitSlider.SliderReset += StrikeCueStick;
+
     }
 
     private void RotateCueStick(float angle)
@@ -30,9 +32,12 @@ public class CueStickHandler : MonoBehaviour
 
     private void PullCueStick(float power)
     {
-        _cueStick.Pullstick(power);
+        _cueStick.Pull(power);
     }
-
+    private void StrikeCueStick(float distance)
+    {
+        _cueStick.Strike(distance);
+    }
     private void OnDestroy()
     {
        UnSubScribeEvents();

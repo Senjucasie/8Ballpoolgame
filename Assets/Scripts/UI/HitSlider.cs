@@ -12,6 +12,7 @@ public class HitSlider : MonoBehaviour, IPointerUpHandler,IDragHandler
 
     //Events
     public event Action<float> SliderMoved;
+    public event Action<float> SliderReset;
 
 
     public void Init()
@@ -30,7 +31,7 @@ public class HitSlider : MonoBehaviour, IPointerUpHandler,IDragHandler
     {
         if(_slider.value>0)
         {
-            SliderMoved?.Invoke( -_slider.value );
+            SliderReset?.Invoke( _slider.value );
             _slider.value = 0;
             _oldvalue = 0;
 
