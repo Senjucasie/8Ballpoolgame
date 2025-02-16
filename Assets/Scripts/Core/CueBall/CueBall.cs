@@ -12,6 +12,7 @@ public class CueBall : MonoBehaviour
 
    public void Strike(Vector3 force)
     {
+      
         _rigidBody.AddForce(force, ForceMode.Impulse);
     }
 }

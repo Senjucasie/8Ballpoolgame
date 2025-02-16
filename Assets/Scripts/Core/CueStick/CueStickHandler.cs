@@ -19,6 +19,7 @@ public class CueStickHandler : MonoBehaviour
 
     private void SubscribeEvents() 
     {
+        
         _input.OnSwiped += RotateCueStick;
         _hitSlider.SliderMoved += PullCueStick;
         _hitSlider.SliderReset += StrikeCueStick;
