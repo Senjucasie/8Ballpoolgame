@@ -2807,6 +2807,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8e83efe04447d42a8a0504e756b965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cueBall: {fileID: 6408517056278415118}
+  _camera: {fileID: 330585545}
 --- !u!4 &1952473641
 Transform:
   m_ObjectHideFlags: 0

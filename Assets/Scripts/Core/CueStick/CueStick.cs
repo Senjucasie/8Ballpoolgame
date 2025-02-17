@@ -7,22 +7,25 @@ public class CueStick : MonoBehaviour
     [SerializeField] private float _strikeIntensity = 1;
     private CueBall _cueBall;
 
+    private float _speed;
+
 
     public void Init(Transform parenttransform,CueBall cueball)
     {
         _cueBall = cueball;
         _transform = parenttransform;
+        _speed = 10f;
     }
 
     public void Rotate(float direction)
     {
-        Vector2 rotationvector = Vector2.up *direction;
+        Vector2 rotationvector = direction * _speed * Time.deltaTime * Vector2.down;
         _transform.Rotate(rotationvector, Space.World);
     }
 
     public void Pull(float power )
     {
-        transform.Translate(Vector3.right * _maxPulldistance * power,Space.Self);
+        transform.Translate(Vector3.left * _maxPulldistance * power,Space.Self);
     }
      
     public void Strike(float distance)

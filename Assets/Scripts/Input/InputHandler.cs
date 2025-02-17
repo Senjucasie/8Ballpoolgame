@@ -9,8 +9,12 @@ public class InputHandler : MonoBehaviour
 
     public event Action<float> OnSwiped;
     private EventSystem _eventSystem;
-    private bool _isOverUI;
- 
+    private bool _rotaeCueStick;
+    private bool clickaboveball = false, clickrightofball = false;
+
+    [SerializeField] private Transform _cueBall;
+    [SerializeField] private Camera _camera;
+
     public void Init()
     {
         _eventSystem = EventSystem.current;
@@ -19,41 +23,53 @@ public class InputHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
+       
         if (Input.GetMouseButtonDown(0))
         {
             if (_eventSystem.IsPointerOverGameObject())
-            {
-                _isOverUI = true;
                 return;
-            }
+
+            _rotaeCueStick = true;
             _prevPosition = Input.mousePosition;
+
+            Vector3 ballscreenpos = _camera.WorldToScreenPoint(_cueBall.position);
+
+            clickaboveball = _prevPosition.y > ballscreenpos.y;
+            clickrightofball = _prevPosition.x > ballscreenpos.x;
         }
+
+       
+        if (!_rotaeCueStick) return;
 
         if (Input.GetMouseButtonUp(0))
         {
-            _isOverUI = false;
+            _rotaeCueStick = false;
         }
-        if (_isOverUI) return;
-       
+
         if (Input.GetMouseButton(0))
         {
             _differnce = _prevPosition - Input.mousePosition;
             _prevPosition = Input.mousePosition;
-            float _speed = 1;
+            float _speed;
+
             if (_differnce == Vector3.zero)
                 return;
 
             //Vertical Swipe
             if (Mathf.Abs(_differnce.y) > Mathf.Abs(_differnce.x))
             {
-                _speed = _differnce.y < 0 ? -1 : 1;
+                _speed = Mathf.Sign(_differnce.y);
+
+                if (clickrightofball)
+                    _speed *= -1;
             }
             //horizontal swipe
             else
             {
-                _speed = _differnce.x > 0 ? 1 : -1;
+                _speed = Mathf.Sign(_differnce.x);
+
+                if (!clickaboveball)
+                    _speed *= -1;
             }
             OnSwiped?.Invoke(_speed);
          
