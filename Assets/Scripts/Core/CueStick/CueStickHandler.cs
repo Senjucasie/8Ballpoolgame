@@ -7,6 +7,7 @@ public class CueStickHandler : MonoBehaviour
     //Dependency
      private InputHandler _input;
      private HitSlider _hitSlider;
+     [SerializeField]private LineRenderer _lineRenderer;
 
 
     public void Init(InputHandler input,HitSlider slider,CueBall cueball)
@@ -14,7 +15,7 @@ public class CueStickHandler : MonoBehaviour
         _hitSlider = slider;
         _input =input;
         SubscribeEvents();
-        _cueStick.Init(transform, cueball);
+        _cueStick.Init(_lineRenderer,transform, cueball);
     }
 
     private void SubscribeEvents() 
